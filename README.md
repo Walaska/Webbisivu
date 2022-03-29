@@ -3,3 +3,4 @@
 - `composer update`
 - `php artisan key:generate`
 - `npm install`
+- `php artisan migrate`
