@@ -14,5 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+
+
+        $data = array('nimi'=>"esim", 'kpi'=>"esim");
+        DB::table('solutions')->insert($data);
     }
 }
