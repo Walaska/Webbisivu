@@ -14,8 +14,9 @@ class CreateTagConnsTable extends Migration
     public function up()
     {
         Schema::create('tag_conns', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->integer('tagid');
+            $table->integer('ongelmaid');
+            $table->string('nimi');
         });
     }
 

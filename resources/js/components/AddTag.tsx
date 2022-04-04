@@ -3,8 +3,27 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
+import axios from 'axios';
 
-export default function AddTag() {
+function AddTag() {
+  let [tag, setTag] = React.useState("");
+
+  const data = {
+    'tag': tag
+  };
+
+  let addTag = () => {
+    if (tag != "") {
+      axios.post('http://127.0.0.1:8000/api/add_tag', data)
+      .then((response) => {
+        console.log(response);
+      }).catch(e => {
+        console.log(e.response);
+      });
+      setTag("");
+    }
+  };
+
   return (
     <div style={{margin: 'auto', marginTop: '10%', width:'20%', position: "absolute", top:'0%', left:'43%'}}>
       <Grid container spacing={1}>
@@ -19,14 +38,18 @@ export default function AddTag() {
             id="tag"
             name="tag"
             label="Tag"
+            value={tag}
+            onChange={e => setTag(e.currentTarget.value)}
             fullWidth
             variant="standard"
           />
         </Grid>
         <Grid item xs={0} sm={0}>
-            <Button style={{minWidth:300}} variant='contained'>Lisää tag</Button>
+            <Button onClick={addTag} style={{minWidth:300}} variant='contained'>Lisää tag</Button>
         </Grid>
       </Grid>
       </div>
   );
 }
+
+export default AddTag;

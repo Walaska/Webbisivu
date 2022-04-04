@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import Sidebar from './Sidebar';
 import AddPMain from './AddProblemMain';
 import SearchP from './SearchProblems';
+import axios from 'axios';
 
 let viewSet : Dispatch<SetStateAction<any>>;
 

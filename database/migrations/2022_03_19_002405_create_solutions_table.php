@@ -14,8 +14,8 @@ class CreateSolutionsTable extends Migration
     public function up()
     {
         Schema::create('solutions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->increments('id');
+            $table->string('nimi');
         });
     }
 

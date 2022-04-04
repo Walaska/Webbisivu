@@ -5,7 +5,11 @@ import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-
+import axios from 'axios';
+import { elementAcceptingRef } from '@mui/utils';
+import { render } from 'react-dom';
+import { Grid, Select } from '@mui/material';
+let test = 0;
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
     elevation={0}
@@ -47,12 +51,9 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-let tagsFromDB = ["test", "test2"];
-
-
-export default function TagDropdown() {
+function TagDropdown(props : any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [chips, setChips] = React.useState<Array<string>>([]);
+  let [tags, setTags] = React.useState<Array<string>>([]);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -62,22 +63,34 @@ export default function TagDropdown() {
   };
   const handleSelect = (event: React.MouseEvent<HTMLElement>) => {
     handleAddChip(event.currentTarget.textContent);
+    props.handleTags(event.currentTarget.textContent);
     setAnchorEl(null);
   };
   const handleAddChip = (chip : any) => {
     console.log("handleAddChip: " + chip);
-    setChips(
-      [...chips, chip]
+    props.setChips(
+      [...props.chips, chip]
     );
-    console.log(chips);
+    console.log(props.chips);
 };
 const handleRemoveChip = (chip : any) => {
-    setChips(
-        chips.filter(c => c != chip)
+    props.setChips(
+        props.chips.filter((c: any) => c != chip)
     )
 };
-
 let chArray : any[] = [];
+if(test == 0) {
+  axios.get('http://127.0.0.1:8000/api/get_all_tags')
+  .then((response) => {
+    test = 1;
+    for (let c = 0; c < response.data.tags.length; c++) {
+      setTags(prevTags =>([...prevTags, response.data.tags[c].nimi])
+      );
+    }
+  }).catch(e => {
+    console.log(e.response);
+  });
+}
 
   return (
     <div>
@@ -101,15 +114,14 @@ let chArray : any[] = [];
         open={open}
         onClose={handleClose}
       >
-        <MenuItem key={0} defaultValue={1} onClick={handleSelect} disableRipple>
-          Test
-        </MenuItem>
-        <MenuItem key={1} defaultValue={2} onClick={handleSelect} disableRipple>
-          Test2
-        </MenuItem>
+       {tags.map((value, index) => {
+         return(
+         <MenuItem key={index} onClick={handleSelect}>{value}</MenuItem>
+         )
+       })}
       </StyledMenu>
       <Stack direction={"row"} spacing={1}>
-        {chips.map((value, index) => {
+        {props.chips.map((value : any, index : any) => {
             chArray.push(<Chip label={value} key={index} variant="outlined" onDelete={() => {handleRemoveChip(value)}} />)
         })}
         {chArray}
@@ -117,3 +129,5 @@ let chArray : any[] = [];
     </div>
   );
 }
+
+export default TagDropdown;

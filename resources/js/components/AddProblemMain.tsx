@@ -2,6 +2,7 @@ import React from "react";
 import AddProblem from "./AddProblem";
 import AddTag from "./AddTag";
 import AddCategory from "./AddCategory";
+import AddKpi from "./AddKpi";
 
 function AddPMain() {
     return(
@@ -9,6 +10,7 @@ function AddPMain() {
             <AddProblem />
             <AddTag />
             <AddCategory />
+            <AddKpi />
         </div>
     );
 }
