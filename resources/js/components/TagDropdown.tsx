@@ -9,7 +9,7 @@ import axios from 'axios';
 import { elementAcceptingRef } from '@mui/utils';
 import { render } from 'react-dom';
 import { Grid, Select } from '@mui/material';
-let test = 0;
+
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
     elevation={0}
@@ -53,6 +53,7 @@ const StyledMenu = styled((props: MenuProps) => (
 
 function TagDropdown(props : any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [test, setTest] = React.useState<number>(0); 
   let [tags, setTags] = React.useState<Array<string>>([]);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -78,11 +79,20 @@ const handleRemoveChip = (chip : any) => {
         props.chips.filter((c: any) => c != chip)
     )
 };
+let arr : any[] = [];
+const testArray = () => {
+  tags.map((value, index) => {
+    if(!arr.includes(value)) {
+      arr.push(value);
+    }
+  });
+}
+
 let chArray : any[] = [];
 if(test == 0) {
   axios.get('http://127.0.0.1:8000/api/get_all_tags')
   .then((response) => {
-    test = 1;
+    setTest(1);
     for (let c = 0; c < response.data.tags.length; c++) {
       setTags(prevTags =>([...prevTags, response.data.tags[c].nimi])
       );
@@ -91,7 +101,7 @@ if(test == 0) {
     console.log(e.response);
   });
 }
-
+testArray();
   return (
     <div>
       <Button
@@ -114,7 +124,7 @@ if(test == 0) {
         open={open}
         onClose={handleClose}
       >
-       {tags.map((value, index) => {
+       {arr.map((value, index) => {
          return(
          <MenuItem key={index} onClick={handleSelect}>{value}</MenuItem>
          )

@@ -17,6 +17,15 @@ class GetController extends Controller
             'kategoriaId'=>$kategoriaId
         ], Response::HTTP_OK);
     }
+    public function getKpi($kpi) {
+        $kpiId = DB::table('kpis')
+        ->select('id')
+        ->where('name', '=', $kpi)
+        ->first();
+        return response()->json([
+            'kpiId'=>$kpiId
+        ], Response::HTTP_OK);
+    }
     public function getTag($tag) {
         $tagId = DB::table('tags')
         ->select('id')
@@ -42,6 +51,14 @@ class GetController extends Controller
             'categories'=>$categories
         ], Response::HTTP_OK);
     }
+    public function getAllKpis() {
+        $kpis = DB::table('kpis')
+        ->select('name')
+        ->get();
+        return response()->json([
+            'kpis'=>$kpis
+        ], Response::HTTP_OK);
+    }
     //DB::raw('group_concat(tag_conns.nimi) as tags'),
     public function getGridData() {
         $data = DB::table('problem_solution_conns')
@@ -50,10 +67,21 @@ class GetController extends Controller
         ->join('solutions', 'problem_solution_conns.solutionId', '=', 'solutions.id')
         ->join('kpis', 'problem_solution_conns.kpiId', '=', 'kpis.id')
         ->join('categories', 'problem_solution_conns.categoryId', '=', 'categories.id')
-        ->select('problems.nimi AS problems', 'solutions.nimi AS solutions', 'kpis.name AS kpis', 'categories.nimi AS categories')
+        ->select('problems.nimi AS ongelma', 'solutions.nimi AS ratkaisu', 'kpis.name AS kpi', 'categories.nimi AS kategoriat', 'problems.id AS pId')
         ->get();
         return response()->json([
             'griddata'=>$data
         ], Response::HTTP_OK);
-    } 
+    }
+    public function getGridTags() {
+        $tag = DB::table('tag_conns')
+        ->select('ongelmaid', 'nimi')
+        ->get();
+        return response()->json([
+            'tag'=>$tag
+        ], Response::HTTP_OK);
+    }
+    public function searchData($haku) {
+
+    }
 }

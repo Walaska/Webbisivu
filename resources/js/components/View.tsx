@@ -4,6 +4,7 @@ import Sidebar from './Sidebar';
 import AddPMain from './AddProblemMain';
 import SearchP from './SearchProblems';
 import axios from 'axios';
+let test = 0;
 
 let viewSet : Dispatch<SetStateAction<any>>;
 
@@ -16,6 +17,36 @@ export function selaaOngelma() {
 }
 
 function View() {
+  let [rows, setRows] = React.useState<Array<any>>([]);
+  let [tags, setTags] = React.useState<Array<any>>([]);
+
+  if (test == 0) {
+    axios.get('http://127.0.0.1:8000/api/get_grid_data')
+    .then((response) => {
+      console.log("Rows data: ");
+      console.log(response.data.griddata);
+      setRows(response.data.griddata);
+      console.log(rows);
+    }).catch(e => {
+      console.log(e.response);
+    });
+    axios.get('http://127.0.0.1:8000/api/get_grid_tags')
+    .then((response) => {
+      console.log("Tags data: ");
+      console.log(response.data.tag);
+      setTags(response.data.tag)
+      console.log(tags);
+    }).catch(e => {
+      console.log(e.response);
+    });
+    test = 1;
+    let rivit = [];
+   /* if(rows.length > 0 && tags.length > 0 ) {
+      for (let x = 0; x < rows.length; x++) {
+        rivit.push({id: x, ongelma: rows[x].problems, ratkaisu: rows[x].solutions, kpi: rows[x].kpis});
+      }
+    } */
+}
     let [view, setview] = React.useState("o");
     viewSet = setview;
 
@@ -29,7 +60,7 @@ function View() {
       ret = <div><Sidebar /><AddPMain /></div>
     }
     else if(view === "s") {
-      ret = <div><Sidebar /><SearchP /></div>
+      ret = <div><Sidebar /><SearchP rows={rows} tags={tags} /></div>
     }
     else {
         ret = <div><Sidebar /></div>

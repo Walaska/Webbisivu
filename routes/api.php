@@ -28,9 +28,14 @@ Route::post('/add', [AddController::class, 'add']);
 Route::post('/add_tag', [AddController::class, 'addTag']);
 Route::post('/add_category', [AddController::class, 'addCategory']);
 Route::post('/add_kpi', [AddController::class, 'addKpi']);
+Route::post('/update', [AddController::class, 'updateTable']);
 
 Route::get('/get_category/{kategoria}', [GetController::class, 'getCategory']);
 Route::get('/get_tag/{tag}', [GetController::class, 'getTag']);
 Route::get('/get_all_tags', [GetController::class, 'getAllTags']);
 Route::get('/get_all_categories', [GetController::class, 'getAllCategories']);
+Route::get('/get_kpi/{kpi}', [GetController::class, 'getKpi']);
+Route::get('/get_all_kpis', [GetController::class, 'getAllKpis']);
+Route::get('/get_grid_tags', [GetController::class, 'getGridTags']);
 Route::get('/get_grid_data', [GetController::class, 'getGridData']);
+Route::get('/search/{haku}', [GetController::class, 'searchData']);

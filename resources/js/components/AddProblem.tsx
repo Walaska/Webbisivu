@@ -12,31 +12,31 @@ function AddProblem() {
   let [ongelma, setOngelma] = React.useState("");
   let [ratkaisu, setRatkaisu] = React.useState<string>("");
   let [kpi, setKpi] = React.useState<string>("");
+  let [kpiId, setKpiId] = React.useState<string>("");
   let [kategoriaId, setKategoriaId] = React.useState<number>();
   let [tags, setTags] = React.useState<Array<string>>([]);
   let [tagids, setTagid] = React.useState<Array<number>>([]);
   let [chips, setChips] = React.useState<Array<string>>([]);
   let [kategoria, setKategoria] = React.useState<string>("");
 
-         /*<TextField
-            id="kpi"
-            name="kpi"
-            label="KPI"
-            fullWidth
-            variant="standard"
-            onChange={e => setKpi(e.currentTarget.value)}
-            value={kpi}
-          />*/
-
   const data = {
     '_token': '{{ csrf_token() }}',
     'ongelma': ongelma,
     'ratkaisu': ratkaisu,
-    'kpi': kpi,
+    'kpi': kpiId,
     'kategoriaid': kategoriaId,
     'tagid': tagids,
+    'tagnames' :tags
   };
-
+  let setKpiIds = (value : string) => {
+    axios.get('http://127.0.0.1:8000/api/get_kpi/' + value)
+    .then((response) => {
+      console.log(response.data.kpiId.id);
+      setKpiId(response.data.kpiId.id);
+    }).catch(e => {
+      console.log(e.response);
+    });
+  }
   let setCatId = (value : string) => {
     console.log("Kategoria vaihtui! : " + value)
     axios.get('http://127.0.0.1:8000/api/get_category/' + value)
@@ -121,7 +121,7 @@ function AddProblem() {
           />
         </Grid>
         <Grid item xs={2}>
-          <KpiDrop />
+          <KpiDrop setKpi={setKpi} setKpiIds={setKpiIds}/>
         </Grid>
         <Grid item xs={0} sm={0}>
         <CategoryDrop setCatId={setCatId} kategoria={kategoria} setKategoria={setKategoria}/>
