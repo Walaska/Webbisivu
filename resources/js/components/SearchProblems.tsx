@@ -2,6 +2,7 @@ import * as React from 'react';
 import { DataGrid, GridCellEditCommitParams, GridColDef, GridEditRowsModel, GridValueGetterParams } from '@mui/x-data-grid';
 import { TextField, Grid, Button } from '@mui/material';
 import axios from 'axios';
+import { serializeStyles } from '@emotion/serialize';
 
 const columns: GridColDef[] = [
   {
@@ -44,24 +45,49 @@ function update(data : object) {
     console.log(e.response);
   });
 }
-
-let testi : string[] = ["Tag", "tag2"];
-
-//{id: i, ongelma: response.data.griddata[i].problems, }
 function SearchP(props : any) {
   const [test, setTest] = React.useState<number>(0);
-  let [haku, setHaku] = React.useState<string>("");
+ // let [haku, setHaku] = React.useState<string>("");
   let [rivit, setRivit] = React.useState<Array<Object>>([]);
+  let [uusiRivi, setUusiRivi] = React.useState<Array<Object>>([]);
+  let [vanhatRivit, setVanhatRivit] = React.useState<Array<Object>>([]);
   let [vanhatTagit, setVanhatTagit] = React.useState<Array<any>>([]);
-  let search = () => {
-    axios.get('http://127.0.0.1:8000/api/search/' + haku)
-    .then((response) => {
-      console.log(response.data);
 
-    }).catch(e => {
-      console.log(e.response);
+
+  let search = (haku : string) => {
+    console.log("Haloo");
+    setRivit(() => [...[]]);
+    vanhatRivit.filter((rivi: any) => {
+      if (haku === "") {
+        setRivit(() => [...[]]);
+        vanhatRivit.map((val, index) => {
+          setRivit(e =>([...e, val]));
+        });
+      }
+      else{
+        if (rivi.tags != null && rivi.tags.join().toLowerCase().includes(haku.toLowerCase())) {
+          return rivi;
+        }
+        if (rivi.ongelma != null && rivi.ongelma.toLowerCase().includes(haku.toLowerCase())) {
+          return rivi;
+        }
+        if (rivi.ratkaisu != null && rivi.ratkaisu.toLowerCase().includes(haku.toLowerCase())) {
+          return rivi;
+        }
+        if(rivi.kpi != null && rivi.kpi.toLowerCase().includes(haku.toLowerCase())) {
+          return rivi;
+        }
+        if (rivi.kategoria != null && rivi.kategoria.toLowerCase().includes(haku.toLowerCase())) {
+          return rivi;
+        } 
+      }
+    }).map((val, index) => {
+      console.log(val);
+      setRivit(e => ([...e, val]));
     });
+    console.log(uusiRivi);
   }
+
 if(test == 0) {
   if(props.rows.length > 0 && props.tags.length > 0 ) {
     for (let y = 0; y < props.rows.length; y++) {
@@ -72,6 +98,7 @@ if(test == 0) {
         }
       }
       setRivit(prevRivit =>([...prevRivit, {id: y, ongelma: props.rows[y].ongelma, tags: tagit, ratkaisu: props.rows[y].ratkaisu, kpi: props.rows[y].kpi, kategoriat: props.rows[y].kategoriat}]));
+      setVanhatRivit(prevVanhaRivi =>([...prevVanhaRivi, {id: y, ongelma: props.rows[y].ongelma, tags: tagit, ratkaisu: props.rows[y].ratkaisu, kpi: props.rows[y].kpi, kategoriat: props.rows[y].kategoriat}]));
       setVanhatTagit(
         prevTags =>([...prevTags, tagit])
       );
@@ -79,6 +106,8 @@ if(test == 0) {
   }
   setTest(1);
 }
+
+
 
 const handleEdit = React.useCallback(({id, field, value}: GridCellEditCommitParams) => {
   if (value == null || value == undefined) value = "";
@@ -105,36 +134,12 @@ const handleEdit = React.useCallback(({id, field, value}: GridCellEditCommitPara
     }
   }
   else if (field == "tags") {
-  /*  let arrToPush = [];
-    let tagString = value.toString().split(',');
-    console.log("-------------");
-    console.log(vanhatTagit[parseInt(id.toString())][0]);
-    if (vanhatTagit[parseInt(id.toString())].length < tagString.length) {
-      for(let x = 0; x < tagString.length; x++) {
-        if(!tagString.includes(vanhatTagit[parseInt(id.toString())][x])) {
-          let taki = vanhatTagit[parseInt(id.toString())][x];
-          console.log("taki on: " + taki);
-          arrToPush.push(taki);
-        }
-      }
-    }
-    else {
-      for(let x = 0; x < vanhatTagit[parseInt(id.toString())].length; x++) {
-        if(!tagString.includes(vanhatTagit[parseInt(id.toString())][x])) {
-          let taki = vanhatTagit[parseInt(id.toString())][x];
-          console.log("taki on: " + taki);
-          arrToPush.push(taki);
-        }
-      }
-    }
-    console.log("Moro!!!!!");
-    console.log(arrToPush); */
-
     console.log(props.tags[id].nimi);
     let tagArray = value.toString().split(',');
     console.log(value);
     let data = {
       'table': 'tag',
+      'id': id,
       'tagValue': tagArray,
       'vanhaData': vanhatTagit[parseInt(id.toString())]
     };
@@ -173,13 +178,10 @@ const handleEdit = React.useCallback(({id, field, value}: GridCellEditCommitPara
             id="haku"
             name="haku"
             label="Hae..."
-            onChange={e => setHaku(e.currentTarget.value)}
+            onChange={e => search(e.currentTarget.value)}
             fullWidth
             variant="standard"
           />
-        </Grid>
-        <Grid>
-        <Button onClick={search} variant='contained'>Hae</Button>
         </Grid>
         </Grid>
       <DataGrid

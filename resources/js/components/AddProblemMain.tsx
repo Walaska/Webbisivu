@@ -3,6 +3,7 @@ import AddProblem from "./AddProblem";
 import AddTag from "./AddTag";
 import AddCategory from "./AddCategory";
 import AddKpi from "./AddKpi";
+import Delete from "./DeleteStuff";
 
 function AddPMain() {
     return(
@@ -11,6 +12,7 @@ function AddPMain() {
             <AddTag />
             <AddCategory />
             <AddKpi />
+            <Delete />
         </div>
     );
 }

@@ -62,12 +62,13 @@ class GetController extends Controller
     //DB::raw('group_concat(tag_conns.nimi) as tags'),
     public function getGridData() {
         $data = DB::table('problem_solution_conns')
-        ->join('problems', 'problem_solution_conns.problemId', '=', 'problems.id')
+        ->leftjoin('problems', 'problem_solution_conns.problemId', '=', 'problems.id')
        // ->join('tag_conns', 'problem_solution_conns.problemId', '=', 'ongelma.id')
-        ->join('solutions', 'problem_solution_conns.solutionId', '=', 'solutions.id')
-        ->join('kpis', 'problem_solution_conns.kpiId', '=', 'kpis.id')
-        ->join('categories', 'problem_solution_conns.categoryId', '=', 'categories.id')
+        ->leftjoin('solutions', 'problem_solution_conns.solutionId', '=', 'solutions.id')
+        ->leftjoin('kpis', 'problem_solution_conns.kpiId', '=', 'kpis.id')
+        ->leftjoin('categories', 'problem_solution_conns.categoryId', '=', 'categories.id')
         ->select('problems.nimi AS ongelma', 'solutions.nimi AS ratkaisu', 'kpis.name AS kpi', 'categories.nimi AS kategoriat', 'problems.id AS pId')
+        ->orderBy('problem_solution_conns.problemId')
         ->get();
         return response()->json([
             'griddata'=>$data

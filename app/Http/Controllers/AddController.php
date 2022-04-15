@@ -43,6 +43,32 @@ class AddController extends Controller
 
     }
 
+    public function delete(Request $request) {
+        $tables = $request->get('table');
+        $items = $request->get('items');
+
+        for($x = 0; $x < count($items); $x++) {
+            if($tables[$x] == 'category') {
+                DB::table('categories')
+                ->where('nimi', '=', $items[$x])
+                ->delete();
+            }
+            else if($tables[$x] == 'kpi') {
+                DB::table('kpis')
+                ->where('name', '=', $items[$x])
+                ->delete();
+            }
+            else if($tables[$x] == 'tag') {
+                DB::table('tags')
+                ->where('nimi', '=', $items[$x])
+                ->delete();
+                DB::table('tag_conns')
+                ->where('nimi', '=', $items[$x])
+                ->delete();
+            }
+        }
+    }
+
     public function addTag(Request $request) {
         $tag = $request->get('tag');
         $data = array('nimi'=>$tag);
@@ -94,8 +120,24 @@ class AddController extends Controller
             ->update($data);
         }
         else if($table == "tag") {
-            //if (count($tag) )
-            for($x = 0; $x < count($tag); $x++) {
+            $id = $request->get('id');
+            $newArr = array();
+            if (count($tag) < count($vanhaData)) {
+                for ($x = 0; $x < count($vanhaData); $x++) {
+                    if(!in_array($vanhaData[0], $tag)) {
+                        $newArr.push($newArr, $vanhaData[0]);
+                    }
+                }
+                if(count($newArr) > 0) {
+                    foreach($newArr as $value) {
+                        DB::table('tag_conns')
+                        ->where('ongelmaid', '=', $id + 1)
+                        ->where('nimi', '=', $value)
+                        ->delete();
+                    }
+                }
+            }
+            /*for($x = 0; $x < count($tag); $x++) {
                 $data = array('nimi'=>$tag[$x]);
                 DB::table('tags')
                 ->where('nimi', '=', $vanhaData[$x])
@@ -103,7 +145,7 @@ class AddController extends Controller
                 DB::table('tag_conns')
                 ->where('nimi', '=', $vanhaData[$x])
                 ->update($data); 
-            }
+            } */
         }
     }
 }

@@ -29,6 +29,7 @@ Route::post('/add_tag', [AddController::class, 'addTag']);
 Route::post('/add_category', [AddController::class, 'addCategory']);
 Route::post('/add_kpi', [AddController::class, 'addKpi']);
 Route::post('/update', [AddController::class, 'updateTable']);
+Route::post('/delete', [AddController::class, 'delete']);
 
 Route::get('/get_category/{kategoria}', [GetController::class, 'getCategory']);
 Route::get('/get_tag/{tag}', [GetController::class, 'getTag']);
