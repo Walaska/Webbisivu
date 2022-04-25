@@ -25,7 +25,7 @@ function AddCategory() {
   };
 
   return (
-    <div style={{margin:'auto', marginTop:'10%', width:'32%', position: "absolute", left:'65%'}}>
+    <div style={{margin: 'auto', width:'500px', position: "relative", marginTop: '80px', marginLeft: '300px'}}>
       <Grid container spacing={1}>
       <Grid xs={3} sm={3}> 
       <Typography variant="h6" gutterBottom>

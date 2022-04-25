@@ -40,6 +40,15 @@ class AddController extends Controller
                 DB::table('tag_conns')->insert($data);
             } 
         }
+        if($ratkaisu == "") {
+            $data = array('nimi'=>$nimi);
+            $ongelmaId = DB::table('problems')->insertGetId($data);
+
+            for ($x = 0; $x < count($tags);$x++) {
+                $data = array('tagid'=>(int)$tags[$x], 'ongelmaid'=>$ongelmaId, 'nimi'=>$tagnames[$x]);
+                DB::table('tag_conns')->insert($data);
+            }
+        }
 
     }
 
@@ -94,12 +103,26 @@ class AddController extends Controller
         $kategoria = $request->get('kategoriatValue');
         $table = $request->get('table');
         $vanhaData = $request->get('vanhaData');
+        $pID = $request->get('ongelmaId');
 
         if($table == "ongelma") {
-            $data = array('nimi'=>$ongelma);
-            DB::table('problems')
-            ->where('nimi', '=', $vanhaData)
-            ->update($data);
+            if ($ongelma == "") {
+                DB::table("problems")
+                ->where('id', '=', $pID)
+                ->delete();
+                DB::table('tag_conns')
+                ->where('ongelmaid', '=', $pID)
+                ->delete();
+                DB::table('problem_solution_conns')
+                ->where('problemId', '=', $pID)
+                ->delete();
+            }
+            else {
+                $data = array('nimi'=>$ongelma);
+                DB::table('problems')
+                ->where('nimi', '=', $vanhaData)
+                ->update($data);
+            }
         }
         else if($table == "ratkaisu") {
             $data = array('nimi'=>$ratkaisu);
@@ -109,14 +132,18 @@ class AddController extends Controller
         }
         else if($table == "kpi") {
             $data = array('name'=>$kpi);
-            DB::table('kpis')
-            ->where('name', '=', $vanhaData)
+            $x = DB::table('kpis')->insertGetId($data);
+            $data = array('kpiId'=>$x);
+            DB::table('problem_solution_conns')
+            ->where('problemId', '=', $pID)
             ->update($data);
         }
         else if($table == "kategoriat") {
             $data = array('nimi'=>$kategoria);
-            DB::table('categories')
-            ->where('nimi', '=', $vanhaData)
+            $x = DB::table('categories')->insertGetId($data);
+            $data = array('categoryId'=>$x);
+            DB::table('problem_solution_conns')
+            ->where('problemId', '=', $pID)
             ->update($data);
         }
         else if($table == "tag") {

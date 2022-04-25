@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from 'react';
-import {  MenuItem, Select } from "@mui/material";
+import {  MenuItem, Select, Typography } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { FormControl } from "@mui/material";
 import axios from 'axios';
@@ -62,6 +62,7 @@ function KpiDrop(props : any) {
             )
           })}
         </Select>
+        <Typography>{props.kpi}</Typography>
       </FormControl>
     );
 }

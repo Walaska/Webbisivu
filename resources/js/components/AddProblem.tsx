@@ -86,7 +86,7 @@ function AddProblem() {
     setKategoria("");
   };
   return (
-    <div style={{margin:'auto', marginTop:'10%', width:'32%', position: "absolute", left:'15%'}}>
+    <div style={{margin: 'auto', minWidth:'600px', width:'600px', position: "relative", marginTop: '150px', marginLeft: '300px'}}>
       <Grid container spacing={1}>
         <Grid item xs={0} sm={0}>
       <Typography variant="h6">
@@ -121,7 +121,7 @@ function AddProblem() {
           />
         </Grid>
         <Grid item xs={2}>
-          <KpiDrop setKpi={setKpi} setKpiIds={setKpiIds}/>
+          <KpiDrop setKpi={setKpi} setKpiIds={setKpiIds} kpi={kpi}/>
         </Grid>
         <Grid item xs={0} sm={0}>
         <CategoryDrop setCatId={setCatId} kategoria={kategoria} setKategoria={setKategoria}/>

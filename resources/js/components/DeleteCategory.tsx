@@ -35,12 +35,11 @@ function DeleteCategory(props : any) {
           setCategories(prevCategories =>([...prevCategories, response.data.categories[c].nimi])
           );
         }
-        testArray();
       }).catch(e => {
         console.log(e.response);
       });
     }
-  
+    testArray();
     return(
       
         <FormControl style={{width:200}}>

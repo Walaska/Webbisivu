@@ -26,7 +26,7 @@ let addKpi = () => {
 };
 
   return (
-    <div style={{margin: 'auto', marginTop: '20%', width:'20%', position: "absolute", top:'0%', left:'43%'}}>
+    <div style={{width:'500px', position: "relative", marginTop: '50px', marginLeft:'300px'}}>
       <Grid container spacing={1}>
       <Grid xs={0} sm={3.4}> 
       <Typography variant="h6" gutterBottom>
@@ -46,7 +46,7 @@ let addKpi = () => {
           />
         </Grid>
         <Grid item xs={0} sm={0}>
-            <Button onClick={addKpi} style={{minWidth:300}} variant='contained'>Lisää Kpi</Button>
+            <Button onClick={addKpi} style={{minWidth:300, position: 'absolute', marginTop: '11%', marginLeft: '-26%'}} variant='contained'>Lisää Kpi</Button>
         </Grid>
       </Grid>
       </div>

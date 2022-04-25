@@ -87,7 +87,8 @@ function SearchP(props : any) {
     });
     console.log(uusiRivi);
   }
-
+console.log("ASDASDS");
+console.log(props.rows);
 if(test == 0) {
   if(props.rows.length > 0 && props.tags.length > 0 ) {
     for (let y = 0; y < props.rows.length; y++) {
@@ -112,12 +113,15 @@ if(test == 0) {
 const handleEdit = React.useCallback(({id, field, value}: GridCellEditCommitParams) => {
   if (value == null || value == undefined) value = "";
   if (field == "ongelma") {
+    console.log(props.rows);
     console.log(props.rows[id].ongelma);
+    console.log(id);
     if(value != props.rows[id].ongelma) {
       let data = {
         'table': 'ongelma',
         'ongelmaValue': value,
-        'vanhaData': props.rows[id].ongelma
+        'vanhaData': props.rows[id].ongelma,
+        'ongelmaId': props.rows[id].pID
       };
       update(data);
     }
@@ -128,7 +132,8 @@ const handleEdit = React.useCallback(({id, field, value}: GridCellEditCommitPara
       let data = {
         'table': 'ratkaisu',
         'ratkaisuValue': value,
-        'vanhaData': props.rows[id].ratkaisu
+        'vanhaData': props.rows[id].ratkaisu,
+        'ongelmaId': props.rows[id].pID
       };
       update(data);
     }
@@ -141,7 +146,8 @@ const handleEdit = React.useCallback(({id, field, value}: GridCellEditCommitPara
       'table': 'tag',
       'id': id,
       'tagValue': tagArray,
-      'vanhaData': vanhatTagit[parseInt(id.toString())]
+      'vanhaData': vanhatTagit[parseInt(id.toString())],
+      'ongelmaId': props.rows[id].pID
     };
     console.log(vanhatTagit[parseInt(id.toString())]);
       update(data);
@@ -152,7 +158,8 @@ const handleEdit = React.useCallback(({id, field, value}: GridCellEditCommitPara
       let data = {
         'table': 'kpi',
         'kpiValue': value,
-        'vanhaData': props.rows[id].kpi
+        'vanhaData': props.rows[id].kpi,
+        'ongelmaId': props.rows[id].pID
       };
       update(data);
     }
@@ -163,7 +170,8 @@ const handleEdit = React.useCallback(({id, field, value}: GridCellEditCommitPara
       let data = {
         'table': 'kategoriat',
         'kategoriatValue': value,
-        'vanhaData': props.rows[id].kategoriat
+        'vanhaData': props.rows[id].kategoriat,
+        'ongelmaId': props.rows[id].pID
       };
       update(data);
     }
@@ -171,9 +179,9 @@ const handleEdit = React.useCallback(({id, field, value}: GridCellEditCommitPara
 }, [rivit]);
 
   return (
-    <div style={{ height: 400, width: '80%', marginTop:'10%', marginLeft:'15%' }}>
+    <div style={{ height: 400, width: '1400px', marginTop:'150px', marginLeft:'300px', position: 'absolute' }}>
         <Grid style={{padding:'20px'}}>
-        <Grid item xs={3} style={{width: '40%'}}>
+        <Grid item xs={3} style={{width: '1100px'}}>
           <TextField
             id="haku"
             name="haku"

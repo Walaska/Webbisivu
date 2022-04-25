@@ -40,12 +40,6 @@ function View() {
       console.log(e.response);
     });
     test = 1;
-    let rivit = [];
-   /* if(rows.length > 0 && tags.length > 0 ) {
-      for (let x = 0; x < rows.length; x++) {
-        rivit.push({id: x, ongelma: rows[x].problems, ratkaisu: rows[x].solutions, kpi: rows[x].kpis});
-      }
-    } */
 }
     let [view, setview] = React.useState("o");
     viewSet = setview;

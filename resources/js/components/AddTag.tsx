@@ -25,7 +25,7 @@ function AddTag() {
   };
 
   return (
-    <div style={{margin: 'auto', marginTop: '10%', width:'20%', position: "absolute", top:'0%', left:'43%'}}>
+    <div style={{width:'500px', position: "relative", marginTop: '70px', marginLeft: '300px'}}>
       <Grid container spacing={1}>
       <Grid xs={0} sm={3.4}> 
       <Typography variant="h6" gutterBottom>
@@ -45,7 +45,7 @@ function AddTag() {
           />
         </Grid>
         <Grid item xs={0} sm={0}>
-            <Button onClick={addTag} style={{minWidth:300}} variant='contained'>Lisää tag</Button>
+            <Button onClick={addTag} style={{ minWidth:300, position: 'absolute', marginTop: '11%', marginLeft: '-26%'}} variant='contained'>Lisää tag</Button>
         </Grid>
       </Grid>
       </div>

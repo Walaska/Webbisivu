@@ -43,7 +43,7 @@ let Delete = () => {
 };
 
   return (
-    <div style={{margin: 'auto', marginTop: '20%', width:'20%', position: "absolute", top:'0%', left:'16%'}}>
+    <div style={{float: 'left', width:'550px', marginTop:'-755px', marginLeft: '1000px'}}>
       <Grid container spacing={1}>
       <Grid xs={0} sm={3.4}> 
       <Typography variant="h6" gutterBottom >
@@ -52,14 +52,14 @@ let Delete = () => {
       </Grid>
       <Grid item xs={8} />
         <Grid item xs={3}>
-        <div style={{margin: 'auto', marginTop: '10%', width:'20%', position: "absolute", top:'0%', left:'-5%'}}>
+        <div style={{marginTop: '10%', width:'20%', top:'0%'}}>
             <DeleteKpi handleItems={handleItems}/>
             <DeleteCategory handleItems={handleItems}/>
             <DeleteTag handleItems={handleItems}/>
         </div>
         </Grid>
         <Grid item xs={0} sm={0}>
-            <Button onClick={Delete} style={{minWidth:300, marginLeft: '18%', marginTop: '47%'}} variant='contained'>Poista</Button>
+            <Button onClick={Delete} style={{minWidth:300, marginLeft: '28%', marginTop: '47%'}} variant='contained'>Poista</Button>
         </Grid>
       </Grid>
       <Grid>

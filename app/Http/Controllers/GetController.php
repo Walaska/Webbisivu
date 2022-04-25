@@ -67,7 +67,7 @@ class GetController extends Controller
         ->leftjoin('solutions', 'problem_solution_conns.solutionId', '=', 'solutions.id')
         ->leftjoin('kpis', 'problem_solution_conns.kpiId', '=', 'kpis.id')
         ->leftjoin('categories', 'problem_solution_conns.categoryId', '=', 'categories.id')
-        ->select('problems.nimi AS ongelma', 'solutions.nimi AS ratkaisu', 'kpis.name AS kpi', 'categories.nimi AS kategoriat', 'problems.id AS pId')
+        ->select('problems.nimi AS ongelma', 'solutions.nimi AS ratkaisu', 'kpis.name AS kpi', 'categories.nimi AS kategoriat', 'problems.id AS pId', 'problemId AS pID')
         ->orderBy('problem_solution_conns.problemId')
         ->get();
         return response()->json([
